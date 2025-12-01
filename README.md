@@ -28,7 +28,7 @@ Datafold provides a JSON Schema that enables your editor to:
 
 **Schema URL:**
 ```
-https://raw.githubusercontent.com/datafold/monitors-schema/schema.json
+https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json
 ```
 
 ---
@@ -55,7 +55,7 @@ Create or edit `.vscode/settings.json` in your project root:
 ```json
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/datafold/monitors-schema/schema.json": [
+    "https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json": [
       "monitors.yaml",
       "monitors.yml",
       "**/monitors/**/*.yaml",
@@ -111,7 +111,7 @@ monitors:
    | Field | Value |
    |-------|-------|
    | **Name** | Datafold Monitors |
-   | **Schema file or URL** | `https://raw.githubusercontent.com/datafold/monitors-schema/schema.json` |
+   | **Schema file or URL** | `https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json` |
    | **Schema version** | JSON Schema version 7 |
 
 5. Under **File path pattern**, click **+** and add:
@@ -146,7 +146,7 @@ require'lspconfig'.yamlls.setup {
   settings = {
     yaml = {
       schemas = {
-        ["https://raw.githubusercontent.com/datafold/monitors-schema/schema.json"] = "monitors*.{yaml,yml}"
+        ["https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json"] = "monitors*.{yaml,yml}"
       }
     }
   }
@@ -163,7 +163,7 @@ require'lspconfig'.yamlls.setup {
 {
   "settings": {
     "yaml.schemas": {
-      "https://raw.githubusercontent.com/datafold/monitors-schema/schema.json": ["monitors*.{yaml,yml}"]
+      "https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json": ["monitors*.{yaml,yml}"]
     }
   }
 }
@@ -178,7 +178,7 @@ Use [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with yaml-language-server:
   :hook (yaml-mode . lsp)
   :config
   (setq lsp-yaml-schemas
-        '(:https://raw.githubusercontent.com/datafold/monitors-schema/schema.json ["monitors*.yaml" "monitors*.yml"])))
+        '(:https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json ["monitors*.yaml" "monitors*.yml"])))
 ```
 
 ---
@@ -188,7 +188,7 @@ Use [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with yaml-language-server:
 You can specify the schema directly in your YAML files using a comment:
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datafold/monitors-schema/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json
 
 monitors:
   my_monitor:
