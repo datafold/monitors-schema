@@ -1,0 +1,2204 @@
+{
+  "$defs": {
+    "AbsoluteColumnTolerance": {
+      "properties": {
+        "type": {
+          "const": "absolute",
+          "default": "absolute",
+          "description": "The type of Column Tolerance.",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value of Column Tolerance.",
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Absolute",
+      "type": "object"
+    },
+    "AbsoluteThreshold": {
+      "properties": {
+        "type": {
+          "const": "absolute",
+          "title": "Type",
+          "type": "string"
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum value for the absolute threshold.",
+          "title": "Max"
+        },
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum value for the absolute threshold.",
+          "title": "Min"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Absolute",
+      "type": "object"
+    },
+    "AnomalyDetectionThreshold": {
+      "properties": {
+        "type": {
+          "const": "automatic",
+          "title": "Type",
+          "type": "string"
+        },
+        "sensitivity": {
+          "description": "Sensitivity level for anomaly detection, ranging from 0 to 100.",
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Sensitivity",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "sensitivity"
+      ],
+      "title": "Anomaly Detection",
+      "type": "object"
+    },
+    "ColumnMetric": {
+      "enum": [
+        "total",
+        "distinct",
+        "uniqueness",
+        "nulls",
+        "fill_rate",
+        "sum",
+        "min",
+        "max",
+        "qmin",
+        "qmax",
+        "median",
+        "average",
+        "stddev",
+        "col_freshness_minutes"
+      ],
+      "title": "ColumnMetric",
+      "type": "string"
+    },
+    "ColumnMetricAlias": {
+      "enum": [
+        "minimum",
+        "maximum",
+        "std_dev",
+        "cardinality",
+        "uniqueness",
+        "median",
+        "average",
+        "sum",
+        "fill_rate"
+      ],
+      "title": "ColumnMetricAlias",
+      "type": "string"
+    },
+    "ColumnMetricMonitorConfig": {
+      "properties": {
+        "type": {
+          "const": "column",
+          "default": "column",
+          "title": "Type",
+          "type": "string"
+        },
+        "table": {
+          "description": "The name of the table.",
+          "title": "Table",
+          "type": "string"
+        },
+        "column": {
+          "description": "The column of the table.",
+          "title": "Column",
+          "type": "string"
+        },
+        "metric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ColumnMetric"
+            },
+            {
+              "$ref": "#/$defs/ColumnMetricAlias"
+            }
+          ],
+          "description": "The column metric configuration.",
+          "title": "Metric"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Filter condition to evaluate.",
+          "title": "Filter"
+        }
+      },
+      "required": [
+        "table",
+        "column",
+        "metric"
+      ],
+      "title": "Column",
+      "type": "object"
+    },
+    "ColumnToleranceConfig": {
+      "properties": {
+        "default": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "absolute": "#/$defs/AbsoluteColumnTolerance",
+                  "relative": "#/$defs/RelativeColumnTolerance"
+                },
+                "propertyName": "type"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/RelativeColumnTolerance"
+                },
+                {
+                  "$ref": "#/$defs/AbsoluteColumnTolerance"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Default tolerance applied to all columns.",
+          "title": "Default"
+        },
+        "column_tolerance": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "discriminator": {
+                  "mapping": {
+                    "absolute": "#/$defs/AbsoluteColumnTolerance",
+                    "relative": "#/$defs/RelativeColumnTolerance"
+                  },
+                  "propertyName": "type"
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/RelativeColumnTolerance"
+                  },
+                  {
+                    "$ref": "#/$defs/AbsoluteColumnTolerance"
+                  }
+                ]
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specific tolerance per column.",
+          "title": "Column Tolerance"
+        }
+      },
+      "title": "ColumnToleranceConfig",
+      "type": "object"
+    },
+    "CronSchedule": {
+      "properties": {
+        "cron": {
+          "description": "The cron expression that defines the schedule.",
+          "title": "Cron",
+          "type": "string"
+        },
+        "type": {
+          "const": "crontab",
+          "default": "crontab",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cron"
+      ],
+      "title": "Cron",
+      "type": "object"
+    },
+    "CustomMetricMonitorConfig": {
+      "properties": {
+        "type": {
+          "const": "custom",
+          "default": "custom",
+          "title": "Type",
+          "type": "string"
+        },
+        "query": {
+          "description": "The SQL query to be evaluated.",
+          "title": "Query",
+          "type": "string"
+        },
+        "alert_on_missing_data": {
+          "default": false,
+          "description": "Trigger alert if query returns unexpectedly few data points.",
+          "title": "Alert On Missing Data",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "title": "Custom",
+      "type": "object"
+    },
+    "DataDiffMonitorSpec": {
+      "properties": {
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntervalSchedule"
+            },
+            {
+              "$ref": "#/$defs/CronSchedule"
+            },
+            {
+              "$ref": "#/$defs/NoneSchedule"
+            }
+          ],
+          "description": "The schedule at which the monitor runs.",
+          "title": "Schedule"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The description of the monitor.",
+          "title": "Description"
+        },
+        "notifications": {
+          "description": "Notification configuration for the monitor.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "email": "#/$defs/EmailNotification",
+                "pagerduty": "#/$defs/PagerDutyNotification",
+                "slack": "#/$defs/SlackNotification",
+                "teams": "#/$defs/TeamsNotification",
+                "webhook": "#/$defs/WebhookNotification"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/EmailNotification"
+              },
+              {
+                "$ref": "#/$defs/PagerDutyNotification"
+              },
+              {
+                "$ref": "#/$defs/WebhookNotification"
+              },
+              {
+                "$ref": "#/$defs/SlackNotification"
+              },
+              {
+                "$ref": "#/$defs/TeamsNotification"
+              }
+            ]
+          },
+          "title": "Notifications",
+          "type": "array"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Indicates whether the monitor is enabled.",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "tags": {
+          "description": "Tags associated with the monitor.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The unique identifier of the monitor.",
+          "title": "Id"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the monitor.",
+          "title": "Name"
+        },
+        "type": {
+          "const": "diff",
+          "default": "diff",
+          "description": "The type of monitor.",
+          "title": "Type",
+          "type": "string"
+        },
+        "datadiff": {
+          "description": "Configuration for the data diff.",
+          "discriminator": {
+            "mapping": {
+              "indb": "#/$defs/InDbDataDiffConfig",
+              "inmem": "#/$defs/InMemDataDiffConfig"
+            },
+            "propertyName": "diff_type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/InDbDataDiffConfig"
+            },
+            {
+              "$ref": "#/$defs/InMemDataDiffConfig"
+            }
+          ],
+          "title": "Datadiff"
+        },
+        "alert": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DiffAlertCondition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Condition for triggering alerts based on the data diff."
+        }
+      },
+      "required": [
+        "schedule",
+        "datadiff"
+      ],
+      "title": "DataDiffMonitorSpec",
+      "type": "object"
+    },
+    "DataDiffToleranceConfig": {
+      "properties": {
+        "float": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ColumnToleranceConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Configuration for float columns tolerance."
+        }
+      },
+      "title": "DataDiffToleranceConfig",
+      "type": "object"
+    },
+    "DataTestMonitorSpec": {
+      "properties": {
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntervalSchedule"
+            },
+            {
+              "$ref": "#/$defs/CronSchedule"
+            },
+            {
+              "$ref": "#/$defs/NoneSchedule"
+            }
+          ],
+          "description": "The schedule at which the monitor runs.",
+          "title": "Schedule"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The description of the monitor.",
+          "title": "Description"
+        },
+        "notifications": {
+          "description": "Notification configuration for the monitor.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "email": "#/$defs/EmailNotification",
+                "pagerduty": "#/$defs/PagerDutyNotification",
+                "slack": "#/$defs/SlackNotification",
+                "teams": "#/$defs/TeamsNotification",
+                "webhook": "#/$defs/WebhookNotification"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/EmailNotification"
+              },
+              {
+                "$ref": "#/$defs/PagerDutyNotification"
+              },
+              {
+                "$ref": "#/$defs/WebhookNotification"
+              },
+              {
+                "$ref": "#/$defs/SlackNotification"
+              },
+              {
+                "$ref": "#/$defs/TeamsNotification"
+              }
+            ]
+          },
+          "title": "Notifications",
+          "type": "array"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Indicates whether the monitor is enabled.",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "tags": {
+          "description": "Tags associated with the monitor.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the monitor.",
+          "title": "Name"
+        },
+        "type": {
+          "const": "test",
+          "default": "test",
+          "description": "The type of monitor.",
+          "title": "Type",
+          "type": "string"
+        },
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The SQL query to be evaluated.",
+          "title": "Query"
+        },
+        "test": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StandardDataTestMonitorSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The unique identifier of the monitor.",
+          "title": "Id"
+        }
+      },
+      "required": [
+        "schedule",
+        "connection_id"
+      ],
+      "title": "DataTestMonitorSpec",
+      "type": "object"
+    },
+    "DayIntervalSchedule": {
+      "properties": {
+        "every": {
+          "const": "day",
+          "title": "Every",
+          "type": "string"
+        },
+        "utc_at": {
+          "anyOf": [
+            {
+              "format": "time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The UTC time at which the monitor should trigger.",
+          "title": "Utc At"
+        },
+        "hour": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The hour at which the monitor should trigger. (0 - 23)",
+          "title": "Hour"
+        },
+        "type": {
+          "const": "daily",
+          "default": "daily",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "every"
+      ],
+      "title": "Day",
+      "type": "object"
+    },
+    "DestinationFeatures": {
+      "enum": [
+        "attach_csv",
+        "notify_first_triggered_only",
+        "disable_recovery_notifications",
+        "notify_every_run"
+      ],
+      "title": "DestinationFeatures",
+      "type": "string"
+    },
+    "DiffAlertCondition": {
+      "properties": {
+        "different_rows_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for the number of different rows allowed between the datasets.",
+          "title": "Different Rows Count"
+        },
+        "different_rows_percent": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for the percentage of different rows allowed between the datasets.",
+          "title": "Different Rows Percent"
+        }
+      },
+      "title": "Diff Conditions",
+      "type": "object"
+    },
+    "EmailNotification": {
+      "properties": {
+        "type": {
+          "const": "email",
+          "default": "email",
+          "title": "Type",
+          "type": "string"
+        },
+        "features": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DestinationFeatures"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of features to enable for this notification.",
+          "title": "Features"
+        },
+        "recipients": {
+          "description": "A list of email addresses to receive the notification.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Recipients",
+          "type": "array"
+        }
+      },
+      "required": [
+        "recipients"
+      ],
+      "title": "Email",
+      "type": "object"
+    },
+    "HourIntervalSchedule": {
+      "properties": {
+        "every": {
+          "const": "hour",
+          "title": "Every",
+          "type": "string"
+        },
+        "type": {
+          "const": "hourly",
+          "default": "hourly",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "every"
+      ],
+      "title": "Hour",
+      "type": "object"
+    },
+    "InDbDataDiffConfig": {
+      "properties": {
+        "diff_type": {
+          "const": "indb",
+          "default": "indb",
+          "description": "The type of data diff.",
+          "title": "Diff Type",
+          "type": "string"
+        },
+        "primary_key": {
+          "description": "List of columns that make up the primary key for the datasets.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Primary Key",
+          "type": "array"
+        },
+        "columns_to_compare": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional list of columns to compare between the datasets.",
+          "title": "Columns To Compare"
+        },
+        "materialize_results": {
+          "default": false,
+          "description": "Indicates whether to materialize the results of the comparison.",
+          "title": "Materialize Results",
+          "type": "boolean"
+        },
+        "sampling": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ToleranceBasedSampling"
+            },
+            {
+              "$ref": "#/$defs/PercentageSampling"
+            },
+            {
+              "$ref": "#/$defs/MaxRowsSampling"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sampling configuration for the data comparison.",
+          "title": "Sampling"
+        },
+        "column_remapping": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mapping of columns from one dataset to another for comparison.",
+          "title": "Column Remapping"
+        },
+        "dataset_a": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InDbTableDataset"
+            },
+            {
+              "$ref": "#/$defs/InDbQueryDataset"
+            }
+          ],
+          "description": "The first dataset to compare.",
+          "title": "Dataset A"
+        },
+        "dataset_b": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InDbTableDataset"
+            },
+            {
+              "$ref": "#/$defs/InDbQueryDataset"
+            }
+          ],
+          "description": "The second dataset to compare.",
+          "title": "Dataset B"
+        },
+        "timeseries_dimension_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Column used for time series dimensioning in the comparison.",
+          "title": "Timeseries Dimension Column"
+        },
+        "ignore_string_case": {
+          "default": false,
+          "description": "Indicates whether to ignore case differences in string comparisons.",
+          "title": "Ignore String Case",
+          "type": "boolean"
+        },
+        "tolerance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DataDiffToleranceConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Configuration for tolerance."
+        }
+      },
+      "required": [
+        "primary_key",
+        "dataset_a",
+        "dataset_b"
+      ],
+      "title": "In-Database",
+      "type": "object"
+    },
+    "InDbQueryDataset": {
+      "properties": {
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "query": {
+          "description": "The SQL query to be evaluated.",
+          "title": "Query",
+          "type": "string"
+        },
+        "session_parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parameters for the database session.",
+          "title": "Session Parameters"
+        },
+        "time_travel_point": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Point in time for querying historical data.",
+          "title": "Time Travel Point"
+        }
+      },
+      "required": [
+        "connection_id",
+        "query"
+      ],
+      "title": "Query",
+      "type": "object"
+    },
+    "InDbTableDataset": {
+      "properties": {
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "table": {
+          "description": "The table in the format 'db.schema.table'.",
+          "title": "Table",
+          "type": "string"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Filter condition for querying the dataset.",
+          "title": "Filter"
+        },
+        "session_parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Session parameters for the database session.",
+          "title": "Session Parameters"
+        },
+        "time_travel_point": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Point in time for querying historical data.",
+          "title": "Time Travel Point"
+        }
+      },
+      "required": [
+        "connection_id",
+        "table"
+      ],
+      "title": "Table",
+      "type": "object"
+    },
+    "InMemDataDiffConfig": {
+      "properties": {
+        "diff_type": {
+          "const": "inmem",
+          "default": "inmem",
+          "description": "The type of data diff.",
+          "title": "Diff Type",
+          "type": "string"
+        },
+        "primary_key": {
+          "description": "List of columns that make up the primary key for the datasets.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Primary Key",
+          "type": "array"
+        },
+        "columns_to_compare": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional list of columns to compare between the datasets.",
+          "title": "Columns To Compare"
+        },
+        "materialize_results": {
+          "default": false,
+          "description": "Indicates whether to materialize the results of the comparison.",
+          "title": "Materialize Results",
+          "type": "boolean"
+        },
+        "sampling": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ToleranceBasedSampling"
+            },
+            {
+              "$ref": "#/$defs/PercentageSampling"
+            },
+            {
+              "$ref": "#/$defs/MaxRowsSampling"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sampling configuration for the data comparison.",
+          "title": "Sampling"
+        },
+        "column_remapping": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mapping of columns from one dataset to another for comparison.",
+          "title": "Column Remapping"
+        },
+        "dataset_a": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/XdbTableDataset"
+            },
+            {
+              "$ref": "#/$defs/XdbQueryDataset"
+            }
+          ],
+          "description": "The first dataset to compare.",
+          "title": "Dataset A"
+        },
+        "dataset_b": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/XdbTableDataset"
+            },
+            {
+              "$ref": "#/$defs/XdbQueryDataset"
+            }
+          ],
+          "description": "The second dataset to compare.",
+          "title": "Dataset B"
+        },
+        "materialize_results_to": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier for the destination where results should be materialized.",
+          "title": "Materialize Results To"
+        },
+        "ignore_string_case": {
+          "default": false,
+          "description": "Indicates whether to ignore case differences in string comparisons.",
+          "title": "Ignore String Case",
+          "type": "boolean"
+        },
+        "tolerance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DataDiffToleranceConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Configuration for tolerance."
+        }
+      },
+      "required": [
+        "primary_key",
+        "dataset_a",
+        "dataset_b"
+      ],
+      "title": "In-Memory",
+      "type": "object"
+    },
+    "IntervalSchedule": {
+      "properties": {
+        "interval": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HourIntervalSchedule"
+            },
+            {
+              "$ref": "#/$defs/DayIntervalSchedule"
+            }
+          ],
+          "description": "Specifies the scheduling interval.",
+          "title": "Interval"
+        }
+      },
+      "required": [
+        "interval"
+      ],
+      "title": "Interval",
+      "type": "object"
+    },
+    "MaxRowsSampling": {
+      "properties": {
+        "max_rows": {
+          "description": "The maximum number of rows to sample.",
+          "title": "Max Rows",
+          "type": "integer"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for triggering actions based on sampling.",
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "max_rows"
+      ],
+      "title": "MaxRows",
+      "type": "object"
+    },
+    "MetricMonitorSpec": {
+      "properties": {
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntervalSchedule"
+            },
+            {
+              "$ref": "#/$defs/CronSchedule"
+            },
+            {
+              "$ref": "#/$defs/NoneSchedule"
+            }
+          ],
+          "description": "The schedule at which the monitor runs.",
+          "title": "Schedule"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The description of the monitor.",
+          "title": "Description"
+        },
+        "notifications": {
+          "description": "Notification configuration for the monitor.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "email": "#/$defs/EmailNotification",
+                "pagerduty": "#/$defs/PagerDutyNotification",
+                "slack": "#/$defs/SlackNotification",
+                "teams": "#/$defs/TeamsNotification",
+                "webhook": "#/$defs/WebhookNotification"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/EmailNotification"
+              },
+              {
+                "$ref": "#/$defs/PagerDutyNotification"
+              },
+              {
+                "$ref": "#/$defs/WebhookNotification"
+              },
+              {
+                "$ref": "#/$defs/SlackNotification"
+              },
+              {
+                "$ref": "#/$defs/TeamsNotification"
+              }
+            ]
+          },
+          "title": "Notifications",
+          "type": "array"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Indicates whether the monitor is enabled.",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "tags": {
+          "description": "Tags associated with the monitor.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The unique identifier of the monitor.",
+          "title": "Id"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the monitor.",
+          "title": "Name"
+        },
+        "type": {
+          "const": "metric",
+          "default": "metric",
+          "description": "The type of monitor.",
+          "title": "Type",
+          "type": "string"
+        },
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "metric": {
+          "description": "Configuration for the metric being monitored.",
+          "discriminator": {
+            "mapping": {
+              "column": "#/$defs/ColumnMetricMonitorConfig",
+              "custom": "#/$defs/CustomMetricMonitorConfig",
+              "table": "#/$defs/TableMetricMonitorConfig"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/TableMetricMonitorConfig"
+            },
+            {
+              "$ref": "#/$defs/ColumnMetricMonitorConfig"
+            },
+            {
+              "$ref": "#/$defs/CustomMetricMonitorConfig"
+            }
+          ],
+          "title": "Metric"
+        },
+        "alert": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "absolute": "#/$defs/AbsoluteThreshold",
+                  "automatic": "#/$defs/AnomalyDetectionThreshold",
+                  "percentage": "#/$defs/PercentageThreshold"
+                },
+                "propertyName": "type"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/AnomalyDetectionThreshold"
+                },
+                {
+                  "$ref": "#/$defs/AbsoluteThreshold"
+                },
+                {
+                  "$ref": "#/$defs/PercentageThreshold"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Condition for triggering alerts.",
+          "title": "Alert"
+        }
+      },
+      "required": [
+        "schedule",
+        "connection_id",
+        "metric"
+      ],
+      "title": "MetricMonitorSpec",
+      "type": "object"
+    },
+    "NoneSchedule": {
+      "properties": {
+        "type": {
+          "const": "none",
+          "default": "none",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "title": "None",
+      "type": "object"
+    },
+    "PagerDutyNotification": {
+      "properties": {
+        "type": {
+          "const": "pagerduty",
+          "default": "pagerduty",
+          "title": "Type",
+          "type": "string"
+        },
+        "features": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DestinationFeatures"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of features to enable for this notification.",
+          "title": "Features"
+        },
+        "integration": {
+          "description": "The identifier for the integration.",
+          "title": "Integration",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "integration"
+      ],
+      "title": "PagerDuty",
+      "type": "object"
+    },
+    "PercentageSampling": {
+      "properties": {
+        "rate": {
+          "description": "The sampling rate as a percentage.",
+          "title": "Rate",
+          "type": "number"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for triggering actions based on sampling.",
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "rate"
+      ],
+      "title": "Percentage",
+      "type": "object"
+    },
+    "PercentageThreshold": {
+      "properties": {
+        "type": {
+          "const": "percentage",
+          "title": "Type",
+          "type": "string"
+        },
+        "increase": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for allowable percentage increase.",
+          "title": "Increase"
+        },
+        "decrease": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for allowable percentage decrease.",
+          "title": "Decrease"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Percentage",
+      "type": "object"
+    },
+    "RelativeColumnTolerance": {
+      "properties": {
+        "type": {
+          "const": "relative",
+          "default": "relative",
+          "description": "The type of Column Tolerance.",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Value of Column Tolerance.",
+          "title": "Value"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "Relative",
+      "type": "object"
+    },
+    "SDTTable": {
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Columns",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path",
+        "columns"
+      ],
+      "title": "SDTTable",
+      "type": "object"
+    },
+    "SDTVariable": {
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Value"
+        },
+        "quote": {
+          "default": true,
+          "title": "Quote",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "SDTVariable",
+      "type": "object"
+    },
+    "SchemaChangeMonitorSpec": {
+      "properties": {
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntervalSchedule"
+            },
+            {
+              "$ref": "#/$defs/CronSchedule"
+            },
+            {
+              "$ref": "#/$defs/NoneSchedule"
+            }
+          ],
+          "description": "The schedule at which the monitor runs.",
+          "title": "Schedule"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The description of the monitor.",
+          "title": "Description"
+        },
+        "notifications": {
+          "description": "Notification configuration for the monitor.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "email": "#/$defs/EmailNotification",
+                "pagerduty": "#/$defs/PagerDutyNotification",
+                "slack": "#/$defs/SlackNotification",
+                "teams": "#/$defs/TeamsNotification",
+                "webhook": "#/$defs/WebhookNotification"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/EmailNotification"
+              },
+              {
+                "$ref": "#/$defs/PagerDutyNotification"
+              },
+              {
+                "$ref": "#/$defs/WebhookNotification"
+              },
+              {
+                "$ref": "#/$defs/SlackNotification"
+              },
+              {
+                "$ref": "#/$defs/TeamsNotification"
+              }
+            ]
+          },
+          "title": "Notifications",
+          "type": "array"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Indicates whether the monitor is enabled.",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "tags": {
+          "description": "Tags associated with the monitor.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the monitor.",
+          "title": "Name"
+        },
+        "type": {
+          "const": "schema",
+          "default": "schema",
+          "description": "The type of monitor.",
+          "title": "Type",
+          "type": "string"
+        },
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "table": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the table.",
+          "title": "Table"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The unique identifier of the monitor.",
+          "title": "Id"
+        },
+        "include_tables": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Include Tables"
+        },
+        "exclude_tables": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclude Tables"
+        }
+      },
+      "required": [
+        "schedule",
+        "connection_id"
+      ],
+      "title": "SchemaChangeMonitorSpec",
+      "type": "object"
+    },
+    "SlackNotification": {
+      "properties": {
+        "type": {
+          "const": "slack",
+          "default": "slack",
+          "title": "Type",
+          "type": "string"
+        },
+        "features": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DestinationFeatures"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of features to enable for this notification.",
+          "title": "Features"
+        },
+        "integration": {
+          "description": "The identifier for the integration.",
+          "title": "Integration",
+          "type": "integer"
+        },
+        "channel": {
+          "description": "The channel through which the notification will be sent.",
+          "title": "Channel",
+          "type": "string"
+        },
+        "mentions": {
+          "description": "A list of mentions to include in the notification.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Mentions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "integration",
+        "channel"
+      ],
+      "title": "Slack",
+      "type": "object"
+    },
+    "StandardDataTestMonitorSpec": {
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/StandardDataTestTypes"
+        },
+        "tables": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/SDTTable"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tables"
+        },
+        "variables": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "$ref": "#/$defs/SDTVariable"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Variables"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Standard DT",
+      "type": "object"
+    },
+    "StandardDataTestTypes": {
+      "enum": [
+        "unique",
+        "not_null",
+        "accepted_values",
+        "referential_integrity",
+        "numeric_range",
+        "custom_template"
+      ],
+      "title": "StandardDataTestTypes",
+      "type": "string"
+    },
+    "TableMetric": {
+      "enum": [
+        "total",
+        "distinct",
+        "column_count",
+        "freshness_seconds",
+        "freshness_minutes"
+      ],
+      "title": "TableMetric",
+      "type": "string"
+    },
+    "TableMetricAlias": {
+      "enum": [
+        "row_count",
+        "freshness"
+      ],
+      "title": "TableMetricAlias",
+      "type": "string"
+    },
+    "TableMetricMonitorConfig": {
+      "properties": {
+        "type": {
+          "const": "table",
+          "default": "table",
+          "title": "Type",
+          "type": "string"
+        },
+        "table": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the table.",
+          "title": "Table"
+        },
+        "metric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TableMetric"
+            },
+            {
+              "$ref": "#/$defs/TableMetricAlias"
+            }
+          ],
+          "description": "The table metric configuration.",
+          "title": "Metric"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Filter condition to evaluate.",
+          "title": "Filter"
+        },
+        "include_tables": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Include Tables"
+        },
+        "exclude_tables": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclude Tables"
+        }
+      },
+      "required": [
+        "metric"
+      ],
+      "title": "Table",
+      "type": "object"
+    },
+    "TeamsNotification": {
+      "properties": {
+        "type": {
+          "const": "teams",
+          "default": "teams",
+          "title": "Type",
+          "type": "string"
+        },
+        "features": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DestinationFeatures"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of features to enable for this notification.",
+          "title": "Features"
+        },
+        "integration": {
+          "description": "The identifier for the integration.",
+          "title": "Integration",
+          "type": "integer"
+        },
+        "channel": {
+          "description": "The channel through which the notification will be sent.",
+          "title": "Channel",
+          "type": "string"
+        },
+        "mentions": {
+          "description": "A list of mentions names to include in the notification.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Mentions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "integration",
+        "channel"
+      ],
+      "title": "Teams",
+      "type": "object"
+    },
+    "ToleranceBasedSampling": {
+      "properties": {
+        "tolerance": {
+          "description": "The allowable margin of error for sampling.",
+          "title": "Tolerance",
+          "type": "number"
+        },
+        "confidence": {
+          "description": "The confidence level for the sampling results.",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Threshold for triggering actions based on sampling.",
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "tolerance",
+        "confidence"
+      ],
+      "title": "Tolerance",
+      "type": "object"
+    },
+    "WebhookNotification": {
+      "properties": {
+        "type": {
+          "const": "webhook",
+          "default": "webhook",
+          "title": "Type",
+          "type": "string"
+        },
+        "features": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DestinationFeatures"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of features to enable for this notification.",
+          "title": "Features"
+        },
+        "integration": {
+          "description": "The identifier for the integration.",
+          "title": "Integration",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "integration"
+      ],
+      "title": "Webhook",
+      "type": "object"
+    },
+    "XdbQueryDataset": {
+      "properties": {
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "query": {
+          "description": "The SQL query to be evaluated.",
+          "title": "Query",
+          "type": "string"
+        },
+        "session_parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parameters for the database session.",
+          "title": "Session Parameters"
+        },
+        "materialize": {
+          "default": true,
+          "description": "Indicates whether to materialize the dataset.",
+          "title": "Materialize",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "connection_id",
+        "query"
+      ],
+      "title": "Query",
+      "type": "object"
+    },
+    "XdbTableDataset": {
+      "properties": {
+        "connection_id": {
+          "description": "The identifier for the data source configuration.",
+          "title": "Connection Id",
+          "type": "integer"
+        },
+        "table": {
+          "description": "The table in the format 'db.schema.table'.",
+          "title": "Table",
+          "type": "string"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Filter condition for querying the dataset.",
+          "title": "Filter"
+        },
+        "session_parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Session parameters for the database session.",
+          "title": "Session Parameters"
+        },
+        "materialize": {
+          "default": true,
+          "description": "Indicates whether to materialize the dataset.",
+          "title": "Materialize",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "connection_id",
+        "table"
+      ],
+      "title": "Table",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "monitors": {
+      "additionalProperties": {
+        "discriminator": {
+          "mapping": {
+            "diff": "#/$defs/DataDiffMonitorSpec",
+            "metric": "#/$defs/MetricMonitorSpec",
+            "schema": "#/$defs/SchemaChangeMonitorSpec",
+            "test": "#/$defs/DataTestMonitorSpec"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/DataDiffMonitorSpec"
+          },
+          {
+            "$ref": "#/$defs/MetricMonitorSpec"
+          },
+          {
+            "$ref": "#/$defs/SchemaChangeMonitorSpec"
+          },
+          {
+            "$ref": "#/$defs/DataTestMonitorSpec"
+          }
+        ]
+      },
+      "title": "Monitors",
+      "type": "object"
+    }
+  },
+  "required": [
+    "monitors"
+  ],
+  "title": "MonitorsConfig",
+  "type": "object"
+}
