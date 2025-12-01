@@ -20,11 +20,11 @@ Get real-time validation, autocomplete, and inline documentation for your Datafo
 
 Datafold provides a JSON Schema that enables your editor to:
 
-- ✅ **Validate** your monitor configurations in real-time
-- 🔍 **Autocomplete** field names and values
-- 📚 **Show documentation** on hover
-- 💡 **Suggest** valid configuration options
-- 🚨 **Highlight errors** with helpful messages
+- **Validate** your monitor configurations in real-time
+- **Autocomplete** field names and values
+- **Show documentation** on hover
+- **Suggest** valid configuration options
+- **Highlight errors** with helpful messages
 
 **Schema URL:**
 ```
@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/datafold/monitors-schema/main/schema.json
 3. Search for **"YAML"** by Red Hat
 4. Click **Install**
 
-![YAML Extension](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/vscode-yaml/latest/assetbyname/Microsoft.VisualStudio.Services.Icons.Default)
+Or install directly: [YAML Extension by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
 
 ### Step 2: Configure Schema Mapping
 
