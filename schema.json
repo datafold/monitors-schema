@@ -15,9 +15,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "title": "Absolute",
       "type": "object"
     },
@@ -55,9 +53,7 @@
           "title": "Min"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "title": "Absolute",
       "type": "object"
     },
@@ -76,10 +72,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "type",
-        "sensitivity"
-      ],
+      "required": ["type", "sensitivity"],
       "title": "Anomaly Detection",
       "type": "object"
     },
@@ -104,17 +97,7 @@
       "type": "string"
     },
     "ColumnMetricAlias": {
-      "enum": [
-        "minimum",
-        "maximum",
-        "std_dev",
-        "cardinality",
-        "uniqueness",
-        "median",
-        "average",
-        "sum",
-        "fill_rate"
-      ],
+      "enum": ["minimum", "maximum", "std_dev", "cardinality", "uniqueness", "median", "average", "sum", "fill_rate"],
       "title": "ColumnMetricAlias",
       "type": "string"
     },
@@ -162,11 +145,7 @@
           "title": "Filter"
         }
       },
-      "required": [
-        "table",
-        "column",
-        "metric"
-      ],
+      "required": ["table", "column", "metric"],
       "title": "Column",
       "type": "object"
     },
@@ -247,9 +226,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "cron"
-      ],
+      "required": ["cron"],
       "title": "Cron",
       "type": "object"
     },
@@ -273,9 +250,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "query"
-      ],
+      "required": ["query"],
       "title": "Custom",
       "type": "object"
     },
@@ -383,6 +358,19 @@
           "description": "The name of the monitor.",
           "title": "Name"
         },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Email of the monitor owner.",
+          "title": "Owner"
+        },
         "type": {
           "const": "diff",
           "default": "diff",
@@ -422,10 +410,7 @@
           "description": "Condition for triggering alerts based on the data diff."
         }
       },
-      "required": [
-        "schedule",
-        "datadiff"
-      ],
+      "required": ["schedule", "datadiff"],
       "title": "DataDiffMonitorSpec",
       "type": "object"
     },
@@ -586,12 +571,22 @@
           "default": null,
           "description": "The unique identifier of the monitor.",
           "title": "Id"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Email of the monitor owner.",
+          "title": "Owner"
         }
       },
-      "required": [
-        "schedule",
-        "connection_id"
-      ],
+      "required": ["schedule", "connection_id"],
       "title": "DataTestMonitorSpec",
       "type": "object"
     },
@@ -636,19 +631,12 @@
           "type": "string"
         }
       },
-      "required": [
-        "every"
-      ],
+      "required": ["every"],
       "title": "Day",
       "type": "object"
     },
     "DestinationFeatures": {
-      "enum": [
-        "attach_csv",
-        "notify_first_triggered_only",
-        "disable_recovery_notifications",
-        "notify_every_run"
-      ],
+      "enum": ["attach_csv", "notify_first_triggered_only", "disable_recovery_notifications", "notify_every_run"],
       "title": "DestinationFeatures",
       "type": "string"
     },
@@ -717,9 +705,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "recipients"
-      ],
+      "required": ["recipients"],
       "title": "Email",
       "type": "object"
     },
@@ -737,9 +723,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "every"
-      ],
+      "required": ["every"],
       "title": "Hour",
       "type": "object"
     },
@@ -873,11 +857,7 @@
           "description": "Configuration for tolerance."
         }
       },
-      "required": [
-        "primary_key",
-        "dataset_a",
-        "dataset_b"
-      ],
+      "required": ["primary_key", "dataset_a", "dataset_b"],
       "title": "In-Database",
       "type": "object"
     },
@@ -924,10 +904,7 @@
           "title": "Time Travel Point"
         }
       },
-      "required": [
-        "connection_id",
-        "query"
-      ],
+      "required": ["connection_id", "query"],
       "title": "Query",
       "type": "object"
     },
@@ -987,10 +964,7 @@
           "title": "Time Travel Point"
         }
       },
-      "required": [
-        "connection_id",
-        "table"
-      ],
+      "required": ["connection_id", "table"],
       "title": "Table",
       "type": "object"
     },
@@ -1124,11 +1098,7 @@
           "description": "Configuration for tolerance."
         }
       },
-      "required": [
-        "primary_key",
-        "dataset_a",
-        "dataset_b"
-      ],
+      "required": ["primary_key", "dataset_a", "dataset_b"],
       "title": "In-Memory",
       "type": "object"
     },
@@ -1147,9 +1117,7 @@
           "title": "Interval"
         }
       },
-      "required": [
-        "interval"
-      ],
+      "required": ["interval"],
       "title": "Interval",
       "type": "object"
     },
@@ -1174,9 +1142,7 @@
           "title": "Threshold"
         }
       },
-      "required": [
-        "max_rows"
-      ],
+      "required": ["max_rows"],
       "title": "MaxRows",
       "type": "object"
     },
@@ -1284,6 +1250,19 @@
           "description": "The name of the monitor.",
           "title": "Name"
         },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Email of the monitor owner.",
+          "title": "Owner"
+        },
         "type": {
           "const": "metric",
           "default": "metric",
@@ -1351,11 +1330,7 @@
           "title": "Alert"
         }
       },
-      "required": [
-        "schedule",
-        "connection_id",
-        "metric"
-      ],
+      "required": ["schedule", "connection_id", "metric"],
       "title": "MetricMonitorSpec",
       "type": "object"
     },
@@ -1401,9 +1376,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "integration"
-      ],
+      "required": ["integration"],
       "title": "PagerDuty",
       "type": "object"
     },
@@ -1428,9 +1401,7 @@
           "title": "Threshold"
         }
       },
-      "required": [
-        "rate"
-      ],
+      "required": ["rate"],
       "title": "Percentage",
       "type": "object"
     },
@@ -1474,9 +1445,7 @@
           "title": "Decrease"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "title": "Percentage",
       "type": "object"
     },
@@ -1502,9 +1471,7 @@
           "title": "Value"
         }
       },
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "title": "Relative",
       "type": "object"
     },
@@ -1522,10 +1489,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "path",
-        "columns"
-      ],
+      "required": ["path", "columns"],
       "title": "SDTTable",
       "type": "object"
     },
@@ -1585,9 +1549,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "title": "SDTVariable",
       "type": "object"
     },
@@ -1720,6 +1682,19 @@
           "description": "The unique identifier of the monitor.",
           "title": "Id"
         },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Email of the monitor owner.",
+          "title": "Owner"
+        },
         "include_tables": {
           "anyOf": [
             {
@@ -1745,10 +1720,7 @@
           "title": "Exclude Tables"
         }
       },
-      "required": [
-        "schedule",
-        "connection_id"
-      ],
+      "required": ["schedule", "connection_id"],
       "title": "SchemaChangeMonitorSpec",
       "type": "object"
     },
@@ -1795,10 +1767,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "integration",
-        "channel"
-      ],
+      "required": ["integration", "channel"],
       "title": "Slack",
       "type": "object"
     },
@@ -1838,40 +1807,22 @@
           "title": "Variables"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "title": "Standard DT",
       "type": "object"
     },
     "StandardDataTestTypes": {
-      "enum": [
-        "unique",
-        "not_null",
-        "accepted_values",
-        "referential_integrity",
-        "numeric_range",
-        "custom_template"
-      ],
+      "enum": ["unique", "not_null", "accepted_values", "referential_integrity", "numeric_range", "custom_template"],
       "title": "StandardDataTestTypes",
       "type": "string"
     },
     "TableMetric": {
-      "enum": [
-        "total",
-        "distinct",
-        "column_count",
-        "freshness_seconds",
-        "freshness_minutes"
-      ],
+      "enum": ["total", "distinct", "column_count", "freshness_seconds", "freshness_minutes", "col_freshness_minutes"],
       "title": "TableMetric",
       "type": "string"
     },
     "TableMetricAlias": {
-      "enum": [
-        "row_count",
-        "freshness"
-      ],
+      "enum": ["row_count", "freshness"],
       "title": "TableMetricAlias",
       "type": "string"
     },
@@ -1946,9 +1897,7 @@
           "title": "Exclude Tables"
         }
       },
-      "required": [
-        "metric"
-      ],
+      "required": ["metric"],
       "title": "Table",
       "type": "object"
     },
@@ -1995,10 +1944,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "integration",
-        "channel"
-      ],
+      "required": ["integration", "channel"],
       "title": "Teams",
       "type": "object"
     },
@@ -2028,10 +1974,7 @@
           "title": "Threshold"
         }
       },
-      "required": [
-        "tolerance",
-        "confidence"
-      ],
+      "required": ["tolerance", "confidence"],
       "title": "Tolerance",
       "type": "object"
     },
@@ -2065,9 +2008,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "integration"
-      ],
+      "required": ["integration"],
       "title": "Webhook",
       "type": "object"
     },
@@ -2104,10 +2045,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "connection_id",
-        "query"
-      ],
+      "required": ["connection_id", "query"],
       "title": "Query",
       "type": "object"
     },
@@ -2157,10 +2095,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "connection_id",
-        "table"
-      ],
+      "required": ["connection_id", "table"],
       "title": "Table",
       "type": "object"
     }
@@ -2196,9 +2131,7 @@
       "type": "object"
     }
   },
-  "required": [
-    "monitors"
-  ],
+  "required": ["monitors"],
   "title": "MonitorsConfig",
   "type": "object"
 }
