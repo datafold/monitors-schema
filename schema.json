@@ -705,6 +705,21 @@
           "default": null,
           "description": "Threshold for the percentage of different rows allowed between the datasets.",
           "title": "Different Rows Percent"
+        },
+        "match_ratio_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum acceptable match ratio (0.0-1.0). Alert when match_ratio < match_ratio_min.",
+          "title": "Match Ratio Min"
         }
       },
       "title": "Diff Conditions",
