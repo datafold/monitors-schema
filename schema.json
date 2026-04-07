@@ -455,6 +455,18 @@
           ],
           "default": null,
           "description": "Configuration for float columns tolerance."
+        },
+        "datetime": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatetimeColumnToleranceConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Configuration for datetime columns tolerance."
         }
       },
       "title": "DataDiffToleranceConfig",
@@ -619,6 +631,28 @@
         "connection_id"
       ],
       "title": "DataTestMonitorSpec",
+      "type": "object"
+    },
+    "DatetimeColumnToleranceConfig": {
+      "properties": {
+        "default": {
+          "enum": [
+            "1s",
+            "0.1s",
+            "0.01s",
+            "1ms",
+            "0.1ms",
+            "0.01ms",
+            "1us"
+          ],
+          "type": "string",
+          "title": "Default"
+        }
+      },
+      "required": [
+        "default"
+      ],
+      "title": "DatetimeColumnToleranceConfig",
       "type": "object"
     },
     "DayIntervalSchedule": {
