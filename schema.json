@@ -892,6 +892,32 @@
           "description": "Mapping of columns from one dataset to another for comparison.",
           "title": "Column Remapping"
         },
+        "compare_duplicates": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Compare rows with duplicate primary keys. Defaults to true.",
+          "title": "Compare Duplicates"
+        },
+        "sort_array_columns": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sort array elements before comparison to ignore insertion order differences.",
+          "title": "Sort Array Columns"
+        },
         "dataset_a": {
           "anyOf": [
             {
@@ -1142,6 +1168,32 @@
           "default": null,
           "description": "Mapping of columns from one dataset to another for comparison.",
           "title": "Column Remapping"
+        },
+        "compare_duplicates": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Compare rows with duplicate primary keys. Defaults to true.",
+          "title": "Compare Duplicates"
+        },
+        "sort_array_columns": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sort array elements before comparison to ignore insertion order differences.",
+          "title": "Sort Array Columns"
         },
         "dataset_a": {
           "anyOf": [
