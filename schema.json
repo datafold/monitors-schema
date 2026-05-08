@@ -961,6 +961,12 @@
           "title": "Ignore String Case",
           "type": "boolean"
         },
+        "null_equals_empty_string": {
+          "default": false,
+          "description": "Treat NULL and empty string ('') as equal in string comparisons and PK joins.",
+          "title": "Null Equals Empty String",
+          "type": "boolean"
+        },
         "tolerance": {
           "anyOf": [
             {
@@ -1236,6 +1242,12 @@
           "default": false,
           "description": "Indicates whether to ignore case differences in string comparisons.",
           "title": "Ignore String Case",
+          "type": "boolean"
+        },
+        "null_equals_empty_string": {
+          "default": false,
+          "description": "Treat NULL and empty string ('') as equal in string comparisons and PK joins.",
+          "title": "Null Equals Empty String",
           "type": "boolean"
         },
         "tolerance": {
