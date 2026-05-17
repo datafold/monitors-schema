@@ -851,6 +851,38 @@
           "description": "Optional list of columns to compare between the datasets.",
           "title": "Columns To Compare"
         },
+        "include_columns": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Columns to include in the comparison. InDb diffs accept gitignore-style patterns (e.g. '*_ts'); InMem diffs require exact column names. Alias of columns_to_compare; set only one.",
+          "title": "Include Columns"
+        },
+        "exclude_columns": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Columns to exclude from the comparison. InDb diffs accept gitignore-style patterns (e.g. '*_ts'); InMem diffs require exact column names. Primary-key columns are never excluded.",
+          "title": "Exclude Columns"
+        },
         "materialize_results": {
           "default": false,
           "description": "Indicates whether to materialize the results of the comparison.",
@@ -1133,6 +1165,38 @@
           "default": null,
           "description": "Optional list of columns to compare between the datasets.",
           "title": "Columns To Compare"
+        },
+        "include_columns": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Columns to include in the comparison. InDb diffs accept gitignore-style patterns (e.g. '*_ts'); InMem diffs require exact column names. Alias of columns_to_compare; set only one.",
+          "title": "Include Columns"
+        },
+        "exclude_columns": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Columns to exclude from the comparison. InDb diffs accept gitignore-style patterns (e.g. '*_ts'); InMem diffs require exact column names. Primary-key columns are never excluded.",
+          "title": "Exclude Columns"
         },
         "materialize_results": {
           "default": false,
