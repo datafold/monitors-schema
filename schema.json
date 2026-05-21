@@ -170,6 +170,46 @@
       "title": "Column",
       "type": "object"
     },
+    "ColumnRule": {
+      "properties": {
+        "column": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Column name the rule applies to. When column remapping is enabled, this refers to the dataset-A (canonical) column name \u2014 the same name the comparator operates on after remapping. Mutually exclusive with `type`. Exactly one of `column` or `type` must be set.",
+          "title": "Column"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatatypeName"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Type-based selector \u2014 matches all columns whose Datatype.typename equals this value. The rule is applied to every column of that type after data lands in DuckDB post-fetch. Mutually exclusive with `column`. Exactly one of `column` or `type` must be set."
+        },
+        "equal_if": {
+          "description": "SQL boolean expression OR-ed into the value comparator for the matching column(s). Use {a} and {b} as placeholders for the side-A and side-B column references. Multiple rules matching the same column are all OR-ed together. Example: \"{a} = '1900-01-01' AND {b} IS NULL\".",
+          "title": "Equal If",
+          "type": "string"
+        }
+      },
+      "required": [
+        "equal_if"
+      ],
+      "title": "ColumnRule",
+      "type": "object"
+    },
     "ColumnToleranceConfig": {
       "properties": {
         "default": {
@@ -632,6 +672,36 @@
       ],
       "title": "DataTestMonitorSpec",
       "type": "object"
+    },
+    "DatatypeName": {
+      "enum": [
+        "boolean",
+        "integer",
+        "float",
+        "decimal",
+        "unbounded_decimal",
+        "money",
+        "string",
+        "fixed_length_string",
+        "varbinary",
+        "binary",
+        "date",
+        "super",
+        "time",
+        "time_interval",
+        "timestamp",
+        "year",
+        "uuid",
+        "array",
+        "struct",
+        "json",
+        "xml",
+        "map",
+        "void",
+        "unsupported"
+      ],
+      "title": "DatatypeName",
+      "type": "string"
     },
     "DatetimeColumnToleranceConfig": {
       "properties": {
@@ -1325,6 +1395,22 @@
           ],
           "default": null,
           "description": "Configuration for tolerance."
+        },
+        "column_rules": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ColumnRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Extra equality clauses that extend the in-memory diff value comparator. Useful for treating specific value pairs (e.g. legacy sentinels vs NULL) as non-differences. See `ColumnRule` for entry shape.",
+          "title": "Column Rules"
         }
       },
       "required": [
