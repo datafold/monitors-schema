@@ -183,7 +183,7 @@
             }
           ],
           "default": null,
-          "description": "Column name the rule applies to. When column remapping is enabled, this refers to the dataset-A (canonical) column name \u2014 the same name the comparator operates on after remapping. Mutually exclusive with `type`. Exactly one of `column` or `type` must be set.",
+          "description": "Column name the rule applies to, matched case-insensitively. When column remapping is enabled, this refers to the dataset-A (canonical) column name \u2014 the same name the comparator operates on after remapping. A selector matching no compared column applies nothing and is logged as a warning. Mutually exclusive with `type`. Exactly one of `column` or `type` must be set.",
           "title": "Column"
         },
         "type": {
@@ -196,7 +196,7 @@
             }
           ],
           "default": null,
-          "description": "Type-based selector \u2014 matches all columns whose Datatype.typename equals this value. The rule is applied to every column of that type after data lands in DuckDB post-fetch. Mutually exclusive with `column`. Exactly one of `column` or `type` must be set."
+          "description": "Type-based selector \u2014 matches all columns whose Datatype.typename equals this value, resolved against the types the comparison actually runs on (the source warehouse types for same-database diffs, the negotiated DuckDB types for cross-database diffs). Mutually exclusive with `column`. Exactly one of `column` or `type` must be set."
         },
         "equal_if": {
           "description": "SQL boolean expression OR-ed into the value comparator for the matching column(s). Use {a} and {b} as placeholders for the side-A and side-B column references. Multiple rules matching the same column are all OR-ed together. Example: \"{a} = '1900-01-01' AND {b} IS NULL\".",
@@ -1080,6 +1080,22 @@
           ],
           "default": null,
           "description": "Configuration for tolerance."
+        },
+        "column_rules": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ColumnRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Extra equality clauses that extend the diff value comparator. Useful for treating specific value pairs (e.g. legacy sentinels vs NULL) as non-differences. `equal_if` is raw SQL run verbatim in the source warehouse for in-database diffs, so write it in that warehouse's dialect. See `ColumnRule` for entry shape.",
+          "title": "Column Rules"
         }
       },
       "required": [
@@ -1409,7 +1425,7 @@
             }
           ],
           "default": null,
-          "description": "Extra equality clauses that extend the in-memory diff value comparator. Useful for treating specific value pairs (e.g. legacy sentinels vs NULL) as non-differences. See `ColumnRule` for entry shape.",
+          "description": "Extra equality clauses that extend the diff value comparator. Useful for treating specific value pairs (e.g. legacy sentinels vs NULL) as non-differences. `equal_if` is raw SQL run verbatim in the local DuckDB both sides are fetched into \u2014 not in either source warehouse \u2014 so write it in DuckDB's dialect. See `ColumnRule` for entry shape.",
           "title": "Column Rules"
         }
       },
