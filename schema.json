@@ -390,7 +390,7 @@
           "type": "boolean"
         },
         "tags": {
-          "description": "Tags associated with the monitor.",
+          "description": "Tags associated with the monitor. Replaces the monitor's whole tag set on every provision: omitting this key (or passing an empty list) removes all of the monitor's existing tags.",
           "items": {
             "type": "string"
           },
@@ -433,7 +433,7 @@
             }
           ],
           "default": null,
-          "description": "Email of the monitor owner.",
+          "description": "Email of the monitor owner. Replaced on every provision: omitting this key clears the monitor's owner.",
           "title": "Owner"
         },
         "type": {
@@ -583,7 +583,7 @@
           "type": "boolean"
         },
         "tags": {
-          "description": "Tags associated with the monitor.",
+          "description": "Tags associated with the monitor. Replaces the monitor's whole tag set on every provision: omitting this key (or passing an empty list) removes all of the monitor's existing tags.",
           "items": {
             "type": "string"
           },
@@ -613,7 +613,7 @@
             }
           ],
           "default": null,
-          "description": "Email of the monitor owner.",
+          "description": "Email of the monitor owner. Replaced on every provision: omitting this key clears the monitor's owner.",
           "title": "Owner"
         },
         "type": {
@@ -1556,7 +1556,7 @@
           "type": "boolean"
         },
         "tags": {
-          "description": "Tags associated with the monitor.",
+          "description": "Tags associated with the monitor. Replaces the monitor's whole tag set on every provision: omitting this key (or passing an empty list) removes all of the monitor's existing tags.",
           "items": {
             "type": "string"
           },
@@ -1599,7 +1599,7 @@
             }
           ],
           "default": null,
-          "description": "Email of the monitor owner.",
+          "description": "Email of the monitor owner. Replaced on every provision: omitting this key clears the monitor's owner.",
           "title": "Owner"
         },
         "type": {
@@ -1980,7 +1980,7 @@
           "type": "boolean"
         },
         "tags": {
-          "description": "Tags associated with the monitor.",
+          "description": "Tags associated with the monitor. Replaces the monitor's whole tag set on every provision: omitting this key (or passing an empty list) removes all of the monitor's existing tags.",
           "items": {
             "type": "string"
           },
@@ -2010,7 +2010,7 @@
             }
           ],
           "default": null,
-          "description": "Email of the monitor owner.",
+          "description": "Email of the monitor owner. Replaced on every provision: omitting this key clears the monitor's owner.",
           "title": "Owner"
         },
         "type": {
